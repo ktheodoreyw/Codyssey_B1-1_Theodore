@@ -1,4 +1,4 @@
-/* config.js — 사이트에 표시되는 "내용"만 모아둔 파일 */
+/* config.js: 웹 페이지에 표시되는 내용을 모아둔 파일 */
 
 const SITE_CONFIG = {
   /* 브라우저 탭 제목 / 검색 설명 */
@@ -35,10 +35,10 @@ const SITE_CONFIG = {
       src: 'images/김영운.jpg',
       alt: '프로필 사진', // 이미지 내용을 설명하는 문장
     },
-    // 직장 경력
+    // 주요 경력
     paragraphs: [
-      'Ex- Ernst & Young AI 컨설팅 팀',
-      'Ex- KoDATA Solution 리서치 팀',
+      '직장 경력: Ernst & Young AI 컨설팅 팀 / KoDATA(한국평가데이터) 리서치 팀',
+      '주요 프로젝트: 하나증권 옴니버스 계좌 타겟 MTS 개선/ BNK금융그룹 모바일 앱 리뷰 분석 시스템',
     ],
     // 핵심 정보
     facts: [
@@ -74,8 +74,7 @@ const SITE_CONFIG = {
     lead: '궁금한 점이 있다면 편하게 메시지를 남겨 주세요.',
     successMessage: '메시지를 보냈습니다. 확인 후 답장드리겠습니다.',
     // [BONUS 3] Formspree 엔드포인트
-    // 예: 'https://formspree.io/f/abcdwxyz'
-    formspreeEndpoint: '', // TODO (선택)
+    formspreeEndpoint: 'https://formspree.io/f/xrpbpaow',
   },
 
   /* Footer(저작권, 소셜 링크) */
@@ -83,8 +82,8 @@ const SITE_CONFIG = {
     copyrightName: '김영운', 
     // iconClass 는 Font Awesome 클래스명(https://fontawesome.com/search?o=r&m=free)
     socialLinks: [
-      { label: 'GitHub', url: 'https://github.com/ktheodoreyw', iconClass: 'fa-brands fa-github' }, // TODO
-      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/yeong-woon-kim-86463a2a4/', iconClass: 'fa-brands fa-linkedin' }, // TODO
+      { label: 'GitHub', url: 'https://github.com/ktheodoreyw', iconClass: 'fa-brands fa-github' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/yeong-woon-kim-86463a2a4/', iconClass: 'fa-brands fa-linkedin' },
     ],
   },
 

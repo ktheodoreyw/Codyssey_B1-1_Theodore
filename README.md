@@ -1,22 +1,22 @@
-# 반응형 포트폴리오 웹사이트
+# 프로젝트 개요
 
-외부 라이브러리 없이 **순수 HTML / CSS / JavaScript** 만으로 만든 반응형 포트폴리오 웹사이트입니다.
-GitHub API로 저장소 목록을 불러와 Projects 섹션에 렌더링하며, 모든 기능을 **"이벤트 → 상태 변경 → 화면 업데이트"** 흐름으로 구현했습니다.
+외부 라이브러리 없이 **HTML / CSS / JavaScript** 만으로 반응형 포트폴리오 웹사이트 구현
+GitHub API로 저장소 목록을 불러와 Projects 섹션에 렌더링하며, 모든 기능을 **"이벤트 → 상태 변경 → 화면 업데이트"** 흐름으로 구현
 
 | 항목 | 내용 |
 | --- | --- |
-| 배포 URL | `https://<GITHUB_ID>.github.io/<REPO_NAME>/` <!-- TODO: 배포 후 실제 주소로 교체 --> |
-| 저장소 URL | `https://github.com/<GITHUB_ID>/<REPO_NAME>` <!-- TODO --> |
-| 사용 기술 | HTML5, CSS3(Flexbox · Grid · CSS 변수), JavaScript(ES6+), GitHub REST API |
+| 배포 URL | `https://ktheodoreyw.github.io/Codyssey_B1-1_Theodore/` |
+| 저장소 URL | `https://github.com/<ktheodoreyw>/<Codyssey_B1-1_Theodore>` |
+| 사용 기술 | HTML5, CSS3(Flexbox, Grid), JavaScript(ES6+), GitHub REST API |
 | 허용된 외부 리소스 | Google Fonts(IBM Plex Sans KR), Font Awesome(아이콘) |
-| 동작 확인 브라우저 | 최신 Chrome |
+| 동작 확인 브라우저 | Chrome |
 
 ## 목차
 
 1. [스크린샷](#1-스크린샷)
-2. [내용 채우기 — `js/config.js` 만 수정](#2-내용-채우기--jsconfigjs-만-수정)
+2. [포트폴리오 상세내용](#2-포트폴리오--상세내용)
 3. [폴더 구조](#3-폴더-구조)
-4. [실행 · 업로드 · 배포](#4-실행--업로드--배포)
+4. [실행, 업로드, 배포](#4-실행--업로드--배포)
 5. [기준값 명시](#5-기준값-명시)
 6. **기본 과제**
    - [6-1. 기능 요구사항 체크리스트](#6-1-기능-요구사항-체크리스트)
@@ -27,9 +27,7 @@ GitHub API로 저장소 목록을 불러와 Projects 섹션에 렌더링하며, 
    - [항목 2 — 구조와 설계 이유](#항목-2--구조와-설계-이유)
    - [항목 3 — 코드 흐름 설명](#항목-3--코드-흐름-설명)
    - [항목 4 — 심화 질문](#항목-4--심화-질문)
-8. **[보너스 과제](#8-보너스-과제-기본-과제와-별도)** (기본 과제와 별도)
-9. [제출 전 체크리스트](#9-제출-전-체크리스트)
-
+8. [보너스 과제](#8-보너스-과제)
 ---
 
 ## 1. 스크린샷
@@ -42,7 +40,7 @@ GitHub API로 저장소 목록을 불러와 Projects 섹션에 렌더링하며, 
 
 ---
 
-## 2. 내용 채우기 — `js/config.js` 만 수정
+## 2. 포트폴리오 상세내용
 
 사이트에 표시되는 **내용(데이터)** 과 **구조·로직** 을 분리했습니다.
 `index.html` 은 뼈대만 갖고 있고, `main.js` 의 `renderContent()` 가 `config.js` 의 값을 읽어 각 섹션에 채워 넣습니다.
@@ -505,7 +503,7 @@ const fetchRepos = async () => {
 
 ---
 
-# 8. 보너스 과제 (기본 과제와 별도)
+# 8. 보너스 과제
 
 > 보너스 코드는 세 파일 모두에서 **`[BONUS n]` … `[/BONUS n]` 주석 블록**으로 기본 과제 코드와 구분했습니다.
 > `js/config.js` 의 `features` 값을 `false` 로 바꾸면 해당 보너스 없이 **기본 과제만** 동작합니다.
@@ -517,21 +515,21 @@ const fetchRepos = async () => {
 | 3 | 폼 실제 전송 (Formspree) | `contact.formspreeEndpoint` 입력 시 | `main.js` `[BONUS 3]` `sendToFormspree()` |
 | 4 | 시스템 다크 모드 감지 | `features.systemTheme` | `main.js` `[BONUS 4]` · `style.css` `[BONUS 4]` |
 
-## BONUS 1 — 언어별 프로젝트 필터링 (`array.filter`)
+## BONUS 1: 언어별 프로젝트 필터링 (`array.filter`)
 
 - `getLanguages()` : 저장소 배열을 `map` 으로 언어만 뽑고 `Set` 으로 중복 제거 → `['All', 'JavaScript', 'Python', …]` 버튼 생성. `language` 가 `null` 인 저장소는 "기타"로 묶습니다.
 - `getVisibleRepos()` : `items.filter((repo) => getLanguageLabel(repo) === filter)`
 - **상태 → 렌더링 흐름 (과제 예시 4)**: 필터 버튼 `click` → `handleFilterClick` → `setState('projects', { filter })` → `renderProjects()` 가 필터된 목록과 버튼의 `.active` 를 다시 그림
 - 버튼은 매번 다시 그려지므로 부모에 **이벤트 위임**으로 한 번만 연결했습니다.
 
-## BONUS 2 — 타이핑 효과
+## BONUS 2: 타이핑 효과
 
 - `initTypingEffect()` : `config.hero.typingPhrases` 의 문구를 `setTimeout` 재귀로 한 글자씩 출력(`slice(0, charIndex)`) → 1.6초 대기 → 삭제 → 다음 문구
 - 속도는 상수로 분리: `TYPING_SPEED = 90ms`, `DELETING_SPEED = 40ms`, `PAUSE_AFTER_TYPED = 1600ms`, `PAUSE_BEFORE_NEXT = 400ms`
 - 접근성: 계속 바뀌는 글자는 `aria-hidden` 처리하고 스크린 리더에는 전체 문구를 고정 텍스트로 제공. OS 의 "동작 줄이기" 설정 시 첫 문구를 고정 표시
 - OFF 시: `hero.role` 고정 문구가 그대로 표시됩니다.
 
-## BONUS 3 — 폼 실제 전송 (Formspree)
+## BONUS 3: 폼 실제 전송 (Formspree)
 
 1. [formspree.io](https://formspree.io) 가입 → New Form → 엔드포인트 복사 (`https://formspree.io/f/xxxxxxx`)
 2. `js/config.js` 의 `contact.formspreeEndpoint` 에 붙여넣기
@@ -541,7 +539,7 @@ const fetchRepos = async () => {
 - 엔드포인트가 비어 있으면 실제 전송 없이 **검증 + 성공 메시지까지만** 동작합니다. (기본 과제 범위)
 - Formspree 는 SDK 설치 없이 HTTP 요청만으로 동작하므로 "외부 라이브러리 금지" 조건을 지킵니다.
 
-## BONUS 4 — 시스템 다크 모드 감지 (`prefers-color-scheme`)
+## BONUS 4: 시스템 다크 모드 감지 (`prefers-color-scheme`)
 
 테마 결정 우선순위: **① 사용자가 직접 고른 값(localStorage) → ② OS 설정 → ③ 라이트**
 
@@ -551,16 +549,6 @@ const fetchRepos = async () => {
 - 확인 방법: 개발자 도구 → Rendering 탭 → *Emulate CSS media feature prefers-color-scheme* (Local Storage 의 `portfolio-theme` 을 먼저 삭제)
 
 ---
-
-## 9. 제출 전 체크리스트
-
-- [ ] `js/config.js` 의 `TODO` 항목을 모두 본인 정보로 교체 (**특히 `githubUsername`**)
-- [ ] `images/` 에 프로필 사진 추가, `about.image.src` · `alt` 수정
-- [ ] GitHub 저장소 push → Pages 배포 → 배포 URL 에서 전 기능 확인
-- [ ] 스크린샷 3장 저장: `images/screenshots/desktop.png`, `mobile.png`, `dark.png`
-- [ ] 이 README 상단의 배포 URL · 저장소 URL 교체
-- [ ] (선택) Formspree 엔드포인트 입력 후 실제 메일 수신 확인
-
 ### GitHub API 주의사항
 
 인증 없이 호출하면 **IP 당 시간당 60회**로 제한됩니다. 짧은 시간에 반복해서 새로고침하지 말고, 상태 UI 는 `?mock=` 쿼리로 확인하세요. 한도를 넘으면(403) 에러 상태 UI 에 재시도 가능 시각이 표시됩니다.
