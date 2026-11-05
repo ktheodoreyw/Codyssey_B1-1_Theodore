@@ -33,6 +33,7 @@
 
       <ul class="nav__menu" id="nav-menu">
         <li><a class="nav__link" href="#about">About</a></li>
+        <li><a class="nav__link" href="#awards">Awards</a></li>
         <li><a class="nav__link" href="#skills">Skills</a></li>
         <li><a class="nav__link" href="#projects">Projects</a></li>
         <li><a class="nav__link" href="#contact">Contact</a></li>
@@ -98,8 +99,24 @@
       </div>
     </section>
 
+    <!-- ===================== Awards (수상경력) ===================== -->
+    <section class="section section--alt" id="awards" aria-labelledby="awards-title">
+      <div class="container">
+        <header class="section__header reveal">
+          <h2 class="section__title" id="awards-title">Awards</h2>
+          <p class="section__lead" id="awards-lead">[Awards 섹션 한 줄 설명]</p>
+        </header>
+
+        <!-- 등급별 수상 건수 요약: config.awards.items 를 prize 기준으로 집계 -->
+        <ul class="awards-summary reveal" id="awards-summary" aria-label="등급별 수상 건수"></ul>
+
+        <!-- 연도별 수상 목록: config.awards.items 를 year 기준으로 묶어 주입 -->
+        <div class="awards-timeline" id="awards-timeline"></div>
+      </div>
+    </section>
+
     <!-- ===================== Skills ===================== -->
-    <section class="section section--alt" id="skills" aria-labelledby="skills-title">
+    <section class="section" id="skills" aria-labelledby="skills-title">
       <div class="container">
         <header class="section__header reveal">
           <h2 class="section__title" id="skills-title">Skills</h2>
@@ -112,7 +129,7 @@
     </section>
 
     <!-- ===================== Projects (GitHub API) ===================== -->
-    <section class="section" id="projects" aria-labelledby="projects-title">
+    <section class="section section--alt" id="projects" aria-labelledby="projects-title">
       <div class="container">
         <header class="section__header reveal">
           <h2 class="section__title" id="projects-title">Projects</h2>
@@ -128,7 +145,7 @@
     </section>
 
     <!-- ===================== Contact ===================== -->
-    <section class="section section--alt" id="contact" aria-labelledby="contact-title">
+    <section class="section" id="contact" aria-labelledby="contact-title">
       <div class="container">
         <header class="section__header reveal">
           <h2 class="section__title" id="contact-title">Contact</h2>

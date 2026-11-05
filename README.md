@@ -52,6 +52,7 @@ GitHub API로 저장소 목록을 불러와 Projects 섹션에 렌더링하며, 
 | 네비게이션 | `nav` | `logoText` |
 | Hero | `hero` | `greeting`, `title`, `role`, `typingPhrases`(보너스), `description`, CTA 버튼 문구/링크 |
 | About | `about` | `lead`, `image.src`, `image.alt`, `paragraphs[]`, `facts[]` |
+| Awards | `awards` | `lead`, `items[]` — `{ year, title, prize, description }` 1개가 수상 1건. 연도별로 묶여 최신순 표시, `prize` 에 따라 배지 색 구분 |
 | Skills | `skills` | `lead`, `categories[]` — `{ category, items[] }` 1개가 카드 1개 |
 | Projects | `projects` | **`githubUsername`(필수 교체)**, `excludeForks`, `maxRepos`, `sort` |
 | Contact | `contact` | `lead`, `successMessage`, `formspreeEndpoint`(보너스) |
@@ -147,7 +148,7 @@ git push -u origin main
 | 요구사항 | 구현 (`index.html`) |
 | --- | --- |
 | 시맨틱 태그 | `<header>` `<nav>` `<main>` `<section>` `<article>` `<footer>` + `<figure>` `<dl>` `<time>` |
-| 6개 섹션 | `#hero` `#about` `#skills` `#projects` `#contact` + `<footer>` |
+| 7개 섹션 | `#hero` `#about` `#awards` `#skills` `#projects` `#contact` + `<footer>` |
 | 앵커 링크 | `<nav>` 안의 `href="#about"` … `href="#contact"`, 로고는 `#hero` |
 | 이미지 `alt` | 프로필 이미지 1장 — `config.about.image.alt` 값이 주입됨. 아이콘은 장식이므로 `aria-hidden="true"` |
 | `<label>` 연결 | `for="name"`↔`id="name"`, `for="email"`↔`id="email"`, `for="message"`↔`id="message"` |
@@ -329,14 +330,14 @@ const setState = (slice, patch) => {
 | `<header>` | 사이트 상단 / 각 섹션의 제목 묶음 | 소개·탐색 역할을 하는 머리말 |
 | `<nav>` | 메뉴 | 주요 탐색 링크 묶음. `aria-label` 로 이름 부여 |
 | `<main>` | Hero ~ Contact | 페이지의 핵심 콘텐츠. 문서에 한 번만 사용 |
-| `<section>` | Hero, About, Skills, Projects, Contact | **제목(h1/h2)을 가진 주제별 구역.** `aria-labelledby` 로 제목과 연결 |
+| `<section>` | Hero, About, Awards, Skills, Projects, Contact (Awards 의 연도별 묶음도 `h3` 를 가진 `<section>`) | **제목(h1/h2)을 가진 주제별 구역.** `aria-labelledby` 로 제목과 연결 |
 | `<article>` | 스킬 카드, 프로젝트 카드 | **떼어 내도 그 자체로 의미가 완결되는 독립 콘텐츠** |
 | `<footer>` | 저작권, 소셜 링크 | 페이지의 꼬리말 |
 | `<figure>` `<dl>` `<time>` | 프로필 이미지 / 핵심 정보(라벨-값) / 업데이트 날짜 | 데이터의 의미를 그대로 표현 |
 | `<div>` | `.container`, `.hero__cta` 등 | 의미 없이 레이아웃용으로만 묶을 때 |
 
 **시맨틱 태그를 쓰는 이유** — ① 스크린 리더가 "탐색", "주요 콘텐츠" 같은 랜드마크로 바로 이동할 수 있고(접근성), ② 검색 엔진이 구조를 이해하며(SEO), ③ `div` 만 있을 때보다 코드만 봐도 구조가 읽힙니다(유지보수).
-제목 계층도 `h1`(Hero, 1개) → `h2`(섹션 제목) → `h3`(카드 제목) 순서를 건너뛰지 않았습니다.
+제목 계층도 `h1`(Hero, 1개) → `h2`(섹션 제목) → `h3`(카드 제목 · Awards 연도) → `h4`(Awards 대회명) 순서를 건너뛰지 않았습니다.
 
 ### 2-3. CSS 변수로 관리하는 이점
 
@@ -468,6 +469,7 @@ const fetchRepos = async () => {
 | Footer | Flex | 모바일 세로 → 태블릿부터 가로 양끝 배치 (`flex-direction` 만 변경) |
 | **Projects 카드 목록** | **Grid** | 카드 개수가 API 에 따라 달라지고, **행·열이 모두 맞아야** 함. `repeat(auto-fit, minmax(280px, 1fr))` 한 줄로 열 개수가 1→2→3 자동 변경 |
 | Skills 카드 목록 | Grid | 위와 동일 |
+| Awards (연도 \| 수상 목록) | Grid | 태블릿부터 `7rem 1fr` 2열. 연도 라벨은 `position: sticky` 로 목록을 스크롤하는 동안 고정 |
 | About (사진 \| 글) | Grid | `240px 1fr` 처럼 **열 너비를 컨테이너에서 지정**하는 편이 명확 |
 
 같은 카드 목록을 Flex 로 만들면 마지막 줄의 카드가 남는 공간을 채우며 늘어나 열이 어긋납니다. Grid 는 트랙을 먼저 정의하므로 마지막 줄에 카드가 2개뿐이어도 윗줄과 열이 맞습니다.

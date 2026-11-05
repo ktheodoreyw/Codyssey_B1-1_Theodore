@@ -34,8 +34,18 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FILTER_ALL = 'All';
 const NO_LANGUAGE_LABEL = '기타'; // language 가 null 인 저장소의 표시 이름
 
+// 수상 등급 → 배지 스타일 이름. 배열 순서 = 요약(summary)에 표시되는 순서
+const PRIZE_TIERS = [
+  { prize: '대상', tier: 'grand' },
+  { prize: '최우수상', tier: 'top' },
+  { prize: '우수상', tier: 'high' },
+  { prize: '장려상', tier: 'merit' },
+  { prize: '동상', tier: 'merit' },
+  { prize: '입선', tier: 'merit' },
+];
+
 // 구조분해 할당: config.js 의 SITE_CONFIG 객체에서 필요한 값만 꺼내 씀
-const { meta, nav, hero, about, skills, projects, contact, footer, features } = SITE_CONFIG;
+const { meta, nav, hero, about, awards, skills, projects, contact, footer, features } = SITE_CONFIG;
 
 /* =====================================================================
  * 1. STATE — 화면을 결정하는 모든 값을 한 객체에 모음
@@ -118,6 +128,70 @@ const setState = (slice, patch) => {
 /* =====================================================================
  * 4. 정적 콘텐츠 렌더링 — config.js 의 내용을 HTML 뼈대에 채워 넣음
  * ===================================================================== */
+const getPrizeTier = (prize) => PRIZE_TIERS.find((item) => item.prize === prize)?.tier ?? 'merit';
+
+// 수상 배열 → { 2025: [...], 2024: [...] } 형태로 연도별 묶음 (reduce)
+const groupAwardsByYear = (items) =>
+  items.reduce((groups, award) => {
+    (groups[award.year] ??= []).push(award);
+    return groups;
+  }, {});
+
+const renderAwards = () => {
+  const { lead, items = [] } = awards;
+  setText('#awards-lead', lead);
+
+  // ① 등급별 건수 요약 — 0건인 등급은 표시하지 않음
+  const countByPrize = (prize) => items.filter((award) => award.prize === prize).length;
+  const summaryItems = [
+    { label: '전체 수상', count: items.length, tier: 'total' },
+    ...PRIZE_TIERS.map(({ prize, tier }) => ({ label: prize, count: countByPrize(prize), tier })),
+  ].filter(({ count }) => count > 0);
+
+  $('#awards-summary').innerHTML = summaryItems
+    .map(
+      ({ label, count, tier }) => `
+        <li class="awards-summary__item awards-summary__item--${tier}">
+          <span class="awards-summary__count">${count}</span>
+          <span class="awards-summary__label">${escapeHTML(label)}</span>
+        </li>`
+    )
+    .join('');
+
+  // ② 연도별 목록 — 최신 연도부터, 같은 연도 안에서는 config 에 적은 순서 유지
+  const groups = groupAwardsByYear(items);
+  const years = Object.keys(groups).sort((a, b) => b - a);
+
+  $('#awards-timeline').innerHTML = years
+    .map(
+      (year) => `
+        <section class="award-year reveal" aria-labelledby="award-year-${year}">
+          <h3 class="award-year__label" id="award-year-${year}">
+            <span class="award-year__num">${year}</span>
+            <span class="award-year__count">${groups[year].length}건</span>
+          </h3>
+          <ol class="award-list">
+            ${groups[year]
+              .map(
+                ({ title, prize, description }) => `
+                  <li class="award">
+                    <span class="award__prize award__prize--${getPrizeTier(prize)}">
+                      ${getPrizeTier(prize) === 'grand' ? '<i class="fa-solid fa-trophy" aria-hidden="true"></i>' : ''}
+                      ${escapeHTML(prize)}
+                    </span>
+                    <div class="award__body">
+                      <h4 class="award__title">${escapeHTML(title)}</h4>
+                      <p class="award__desc">${escapeHTML(description)}</p>
+                    </div>
+                  </li>`
+              )
+              .join('')}
+          </ol>
+        </section>`
+    )
+    .join('');
+};
+
 const renderContent = () => {
   // meta
   if (meta.title) document.title = meta.title;
@@ -158,6 +232,9 @@ const renderContent = () => {
         </div>`
     )
     .join('');
+
+  // Awards — 등급별 건수 요약 + 연도별 목록
+  renderAwards();
 
   // Skills — 카테고리 배열을 map 으로 <article> 카드로 변환
   setText('#skills-lead', skills.lead);

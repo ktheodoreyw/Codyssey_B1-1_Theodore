@@ -9,7 +9,7 @@
  *   1. CSS 변수 (라이트)         2. CSS 변수 (다크)  + [BONUS 4]
  *   3. Reset / Base              4. 공통 (container, section, btn, card, tag)
  *   5. Header / Nav (Flexbox)    6. Hero  + [BONUS 2]
- *   7. About                     8. Skills (Grid)
+ *   7. About   7-1. Awards       8. Skills (Grid)
  *   9. Projects (Grid) + [BONUS 1]
  *  10. Contact 폼               11. Footer / 스크롤 탑 버튼
  *  12. 스크롤 애니메이션        13. 태블릿(768px)   14. 데스크톱(1024px)
@@ -581,6 +581,162 @@ button {
 }
 
 /* =====================================================================
+ * 7-1. Awards (수상경력)
+ *      요약 타일(Flex + wrap) → 연도별 묶음(모바일 1열, 태블릿부터 연도 | 목록 2열 Grid)
+ * ===================================================================== */
+.awards-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.awards-summary__item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  transition: background-color var(--transition-base), border-color var(--transition-base);
+}
+
+.awards-summary__count {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.awards-summary__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.awards-summary__item--total {
+  border-color: var(--color-accent);
+  color: var(--color-on-accent);
+  background-color: var(--color-accent);
+}
+
+.awards-summary__item--total .awards-summary__label {
+  color: inherit;
+  opacity: 0.85;
+}
+
+.awards-summary__item--grand .awards-summary__count,
+.awards-summary__item--top .awards-summary__count {
+  color: var(--color-accent);
+}
+
+.awards-timeline {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.award-year {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.award-year__label {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.award-year__num {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.award-year__count {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+/* 한 연도의 수상 목록 = 카드 1장, 항목 사이는 구분선 */
+.award-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  transition: background-color var(--transition-base), border-color var(--transition-base);
+}
+
+.award {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+}
+
+.award + .award {
+  border-top: 1px solid var(--color-border);
+}
+
+.award__title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.award__desc {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* 수상 등급 배지 — 대상 > 최우수상 > 우수상 > 그 외 순으로 강조 */
+.award__prize {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: 5.25rem;
+  padding: 2px var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.award__prize i {
+  font-size: 0.75em;
+}
+
+.award__prize--grand {
+  color: var(--color-on-accent);
+  background-color: var(--color-accent);
+}
+
+.award__prize--top {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: var(--color-accent-soft);
+}
+
+.award__prize--high {
+  color: var(--color-accent);
+  background-color: var(--color-accent-soft);
+}
+
+.award__prize--merit {
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+/* =====================================================================
  * 8. Skills — Grid
  * ===================================================================== */
 .skills-grid {
@@ -939,6 +1095,35 @@ button {
     grid-template-columns: 240px 1fr;
     gap: var(--space-7);
     align-items: start;
+  }
+
+  /* Awards: 연도 | 목록 2열, 배지는 제목 왼쪽에 고정 폭으로 */
+  .award-year {
+    grid-template-columns: 7rem 1fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  .award-year__label {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-4));
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-top: var(--space-4);
+  }
+
+  .award-year__num {
+    font-size: var(--font-size-2xl);
+  }
+
+  .award {
+    flex-direction: row;
+    align-items: baseline; /* 배지 글자와 대회명 첫 줄의 기준선을 맞춤 */
+    gap: var(--space-4);
+  }
+
+  .award__prize {
+    flex: 0 0 auto;
   }
 
   .site-footer__inner {
